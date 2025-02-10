@@ -1,11 +1,48 @@
-# Before You run the script 
-* Run `Windows PowerShell` with Admin rights.
+# Windows Development Environment Setup
 
-* Run this command: `Set-ExecutionPolicy Bypass -Scope Process -Force`
+## Overview
+This tool allows you to automate the setup of your development environment in windows, including PHP, NVM, and essential terminal utilities..
 
-* Run `.\setup.ps1`
+## Features
+- Installs development tools: Notepad++, Composer, Git, NVM (Node Version Manager) ...
 
-* Check the results at the end of the execution & follow the instructions.
+- Terminal Utilities: fzf (Fuzzy Finder), zoxide (Smart CD Command)...
 
-* Run `.\followup.ps1` and follow the instructions.
+- Terminal Enhancements: Configures Cmder with custom theme, Installs Nerd Fonts ...
+
+- PHP Development Setup: Installs multiple PHP versions & Configures Xdebug for installed PHP versions
+
+## Prerequisites
+* Administrator rights in Windows PowerShell
+* Stable internet connection
+
+## Quick Start
+
+### Preparation
+1. Open `Windows PowerShell` as Administrator
+2. Set execution policy:
+   ```powershell
+   Set-ExecutionPolicy Bypass -Scope Process -Force
+   ```
+
+### Installation
+1. Run initial setup:
+   ```powershell
+   .\setup.ps1
+   ```
+2. Review execution results
+3. Run follow-up script:
+   ```powershell
+   .\followup.ps1
+   ```
+
+## Requirements
+- Windows 10/11
+- PowerShell 5.1 or later
+
+## Troubleshooting
+- Ensure all prerequisites are met
+- Check PowerShell execution policy
+- Verify internet connectivity
+
 
