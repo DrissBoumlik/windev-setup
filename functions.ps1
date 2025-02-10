@@ -248,3 +248,12 @@ function What-ToDo-Next {
     Write-Host "`n==========================================================================================`n"
     Write-Host "`nAll tasks completed.`n`n"
 }
+
+function Get-Env {                                                                                
+    $envData = @{}                                                                                
+    Get-Content $ENV_FILE | Where-Object { $_ -match "(.+)=(.+)" } | ForEach-Object {             
+        $key, $value = $_ -split '=', 2                                                           
+        $envData[$key.Trim()] = $value.Trim()                                                     
+    }                                                                                             
+    return $envData                                                                               
+}                                                                                                 

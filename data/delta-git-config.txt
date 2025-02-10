@@ -1,0 +1,24 @@
+
+# DELTA CONFIG FOR git diff
+[include]
+    path = ~/themes.gitconfig
+[core]
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    # navigate = true    
+    # # use n and N to move between diff sections
+    # features = collared-trogon
+    # side-by-side = true
+    # line-numbers = true
+    # line-numbers-left-format = ""
+    # line-numbers-right-format = "│ "
+    # # delta detects terminal colors automatically; set one of these to disable auto-detection
+    # # dark = true
+    # # light = true
+	features = mellow-barbet
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default

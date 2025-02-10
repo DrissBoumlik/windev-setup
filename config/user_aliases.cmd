@@ -113,14 +113,14 @@ _jest=node "node_modules\jest\bin\jest.js" $*
 _mocha=node "node_modules\mocha\bin\mocha.js" $*  
 
 rem ===============================  ENV  ===============================
-setphp=setx php_now "%$1%" /m && RefreshEnv.cmd
+setphp=setx php_current "%$1%" /m && RefreshEnv.cmd
 setpy=setx python_now "%$1%" /m && RefreshEnv.cmd 
 jsc=tsc $1.ts $* && node $1.js
 
 
 rem ===============================  TOOLS  ===============================
 pv=php -v
-phpnow=echo %php_now%
+phpnow=echo %php_current%
 pythonnow=echo %python_now%
 
 rem ===============================  COMPOSER  ==============================

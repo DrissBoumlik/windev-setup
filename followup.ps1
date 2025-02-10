@@ -48,32 +48,7 @@ if ($StepsQuestions["GIT"].Answer -eq "yes") {
     }
     
     try {
-        $deltaGitConfig = @"
-
-# DELTA CONFIG FOR git diff
-[include]
-    path = ~/themes.gitconfig
-[core]
-    pager = delta
-[interactive]
-    diffFilter = delta --color-only
-[delta]
-    # navigate = true    
-    # # use n and N to move between diff sections
-    # features = collared-trogon
-    # side-by-side = true
-    # line-numbers = true
-    # line-numbers-left-format = ""
-    # line-numbers-right-format = "│ "
-    # # delta detects terminal colors automatically; set one of these to disable auto-detection
-    # # dark = true
-    # # light = true
-	features = mellow-barbet
-[merge]
-    conflictstyle = diff3
-[diff]
-    colorMoved = default
-"@
+        $deltaGitConfig =  Get-Content "$PWD\data\delta-git-config.txt" -Raw
         Copy-Item -Path "$PWD\config\themes.gitconfig" -Destination "~/themes.gitconfig"
         Add-Content -Path $gitConfigFile -Value $deltaGitConfig
 
@@ -114,8 +89,8 @@ if ($StepsQuestions["CMDER"].Answer -eq "yes") {
 
     Make-Directory "$downloadPath\env\tools"
     Make-Directory "$downloadPath\env\tools\scripts"
-    Copy-Item -Path "$PWD\tools\scripts\set-env.bat" -Destination "$downloadPath\env\tools\scripts\set-env.bat"
-    Add-Alias-To-Cmder -alias "setvar=""$downloadPath\env\tools\set-env.bat"" `$1 `$2 && RefreshEnv.cmd" -downloadPath $downloadPath
+    Copy-Item -Path "$PWD\tools\scripts\set-env.ps1" -Destination "$downloadPath\env\tools\scripts\set-env.ps1"
+    Add-Alias-To-Cmder -alias "setvar=powershell -ExecutionPolicy Bypass -File ""$downloadPath\env\tools\scripts\set-env.ps1"" -variableName ""`$1"" -variableValue ""``%`$2``%"" && RefreshEnv.cmd $*"
     Copy-Item -Path "$PWD\tools\scripts\toggle-xdebug.ps1" -Destination "$downloadPath\env\tools\scripts\toggle-xdebug.ps1"
     Add-Alias-To-Cmder -alias "togglexdbg=powershell -ExecutionPolicy Bypass -File ""$downloadPath\env\tools\scripts\toggle-xdebug.ps1"" $*" -downloadPath $downloadPath
 
@@ -167,10 +142,11 @@ if ($StepsQuestions["XAMPP_COMPOSER"].Answer -eq "yes") {
         $xamppPath = ($directories | Select-Object -First 1).FullName
         Update-Path-Env-Variable -variableName  "$xamppPath\php" -isVarName 0 -remove 1
         Add-Env-Variable -newVariableName "phpxmp" -newVariableValue "$xamppPath\php" -updatePath 0 -overrideExistingEnvVars $overrideExistingEnvVars
-        Add-Env-Variable -newVariableName "php_now" -newVariableValue "$xamppPath\php" -updatePath 1 -overrideExistingEnvVars $overrideExistingEnvVars
+        Add-Env-Variable -newVariableName $USER_ENV['PHP_CURRENT_ENV_NAME'] -newVariableValue "$xamppPath\php" -updatePath 1 -overrideExistingEnvVars $overrideExistingEnvVars
         Add-Env-Variable -newVariableName "mysql_stuff" -newVariableValue "$xamppPath\mysql\bin" -updatePath 1 -overrideExistingEnvVars $overrideExistingEnvVars
 
-        $msg = "The 'php_now', 'mysql_stuff' & 'phpxmp' "
+        $php_current = $USER_ENV['PHP_CURRENT_ENV_NAME']
+        $msg = "The '$php_current', 'mysql_stuff' & 'phpxmp' "
     } else {
         $WhatWasDoneMessages = Set-Warning-Message -message "No XAMPP directories found." -WhatWasDoneMessages $WhatWasDoneMessages
     }

@@ -1,0 +1,8 @@
+https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS NF Regular.ttf
+https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS NF Bold.ttf
+https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS NF Italic.ttf
+https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS NF Bold Italic.ttf
+https://github.com/powerline/fonts/raw/master/AnonymousPro/Anonymice Powerline Bold Italic.ttf
+https://github.com/powerline/fonts/raw/master/AnonymousPro/Anonymice Powerline Bold.ttf
+https://github.com/powerline/fonts/raw/master/AnonymousPro/Anonymice Powerline Italic.ttf
+https://github.com/powerline/fonts/raw/master/AnonymousPro/Anonymice Powerline.ttf
