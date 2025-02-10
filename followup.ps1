@@ -7,7 +7,7 @@ $ProgressPreference = 'SilentlyContinue'
 $StepsQuestions = [ordered]@{
     GIT = [PSCustomObject]@{ Question = "- Did you already install git ? "; Answer = "no" }
     CMDER = [PSCustomObject]@{ Question = "- Did you already start cmder ? "; Answer = "no" }
-    XAMPP_COMPOSER = [PSCustomObject]@{ Question = "- Did you already install Xampp & Composer ? "; Answer = "no" }
+    COMPOSER = [PSCustomObject]@{ Question = "- Did you already install Composer ? "; Answer = "no" }
 }
  
 foreach ($key in $StepsQuestions.Keys) {
@@ -18,7 +18,6 @@ foreach ($key in $StepsQuestions.Keys) {
 
 $downloadPath = Setup-Container-Directory
 
-$overrideExistingEnvVars = Prompt-YesOrNoWithDefault -message "`nWould you like to override the existing environment variables"
 
 $WhatWasDoneMessages = @()
 #region ADD DELTA TO GIT CONFIG
@@ -91,16 +90,8 @@ if ($StepsQuestions["CMDER"].Answer -eq "yes") {
     Make-Directory "$downloadPath\env\tools\scripts"
     Copy-Item -Path "$PWD\tools\scripts\set-env.ps1" -Destination "$downloadPath\env\tools\scripts\set-env.ps1"
     Add-Alias-To-Cmder -alias "setvar=powershell -ExecutionPolicy Bypass -File ""$downloadPath\env\tools\scripts\set-env.ps1"" -variableName ""`$1"" -variableValue ""``%`$2``%"" && RefreshEnv.cmd $*"
-    Copy-Item -Path "$PWD\tools\scripts\toggle-xdebug.ps1" -Destination "$downloadPath\env\tools\scripts\toggle-xdebug.ps1"
-    Add-Alias-To-Cmder -alias "togglexdbg=powershell -ExecutionPolicy Bypass -File ""$downloadPath\env\tools\scripts\toggle-xdebug.ps1"" $*" -downloadPath $downloadPath
 
     $WhatWasDoneMessages = Set-Success-Message -message "ConEmu.xml & user_aliases.cmd were added to Cmder successfully" -WhatWasDoneMessages $WhatWasDoneMessages
-
-    $directories = Get-ChildItem -Path "C:\" -Directory -ErrorAction SilentlyContinue -Force | Where-Object { $_.Name -match 'xampp' }
-    if ($directories.Count -gt 0) {
-        $xamppPath = ($directories | Select-Object -First 1).FullName
-        Add-Alias-To-Cmder -alias "phpxmp=""$xamppPath\php\php.exe"" $*" -downloadPath $downloadPath
-    }
     
     Add-Alias-To-Cmder -alias "tools=cd ""$downloadPath\env\tools"" $*" -downloadPath $downloadPath
     Add-Alias-To-Cmder -alias "phpdir=cd ""$downloadPath\env\php_stuff\php"" $*" -downloadPath $downloadPath
@@ -136,26 +127,13 @@ if ($StepsQuestions["CMDER"].Answer -eq "yes") {
 #endregion
 
 #region ADD PHP ENVIRONMENT VARIABLE TO THE PATH
-if ($StepsQuestions["XAMPP_COMPOSER"].Answer -eq "yes") {
-    $directories = Get-ChildItem -Path "C:\" -Directory -ErrorAction SilentlyContinue -Force | Where-Object { $_.Name -match 'xampp' }
-    if ($directories.Count -gt 0) {
-        $xamppPath = ($directories | Select-Object -First 1).FullName
-        Update-Path-Env-Variable -variableName  "$xamppPath\php" -isVarName 0 -remove 1
-        Add-Env-Variable -newVariableName "phpxmp" -newVariableValue "$xamppPath\php" -updatePath 0 -overrideExistingEnvVars $overrideExistingEnvVars
-        Add-Env-Variable -newVariableName $USER_ENV['PHP_CURRENT_ENV_NAME'] -newVariableValue "$xamppPath\php" -updatePath 1 -overrideExistingEnvVars $overrideExistingEnvVars
-        Add-Env-Variable -newVariableName "mysql_stuff" -newVariableValue "$xamppPath\mysql\bin" -updatePath 1 -overrideExistingEnvVars $overrideExistingEnvVars
-
-        $php_current = $USER_ENV['PHP_CURRENT_ENV_NAME']
-        $msg = "The '$php_current', 'mysql_stuff' & 'phpxmp' "
-    } else {
-        $WhatWasDoneMessages = Set-Warning-Message -message "No XAMPP directories found." -WhatWasDoneMessages $WhatWasDoneMessages
-    }
+if ($StepsQuestions["COMPOSER"].Answer -eq "yes") {
 
     # Copy composer version 1 to the composer path
     Copy-Item -Path "$PWD\tools\composer-v1" -Destination "C:\composer\v1" -Recurse
     Update-Path-Env-Variable -variableName "C:\composer\v1" -isVarName 0
     
-    $msg += "'composer1'"
+    $msg = "'composer1'"
     $WhatWasDoneMessages = Set-Success-Message -message "$msg variables were successfully added to the PATH" -WhatWasDoneMessages $WhatWasDoneMessages
 }
 #endregion

@@ -1,16 +1,14 @@
 # Windows Development Environment Setup
 
 ## Overview
-This tool allows you to automate the setup of your development environment in windows, including PHP, NVM, and essential terminal utilities..
+This tool allows you to automate the setup of your development environment in windows, including Git, NVM, and essential terminal utilities..
 
 ## Features
-- Installs development tools: Notepad++, Composer, Git, NVM (Node Version Manager) ...
+- Installs development tools: Composer, Git, NVM (Node Version Manager) ...
 
 - Terminal Utilities: fzf (Fuzzy Finder), zoxide (Smart CD Command)...
 
 - Terminal Enhancements: Configures Cmder with custom theme, Installs Nerd Fonts ...
-
-- PHP Development Setup: Installs multiple PHP versions & Configures Xdebug for installed PHP versions
 
 ## Prerequisites
 * Administrator rights in Windows PowerShell

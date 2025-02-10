@@ -1,6 +1,0 @@
-
-[xdebug]
-zend_extension="$outputPathXdebug"
-xdebug.remote_enable=1
-xdebug.remote_host=127.0.0.1
-xdebug.remote_port=9000
