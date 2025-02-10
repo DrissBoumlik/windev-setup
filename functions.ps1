@@ -205,9 +205,9 @@ function Add-Env-Variable {
     }
 }
 
-function Update-Path-Env-Variable {
-    param( [string]$variableName, [boolean]$isVarName = 1, [boolean]$remove = 0 )
-    $currentPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
+function Update-Env-Variable {
+    param( [string]$variableName, [string]$variableToUpdate, [boolean]$isVarName = 1, [boolean]$remove = 0 )
+    $currentPath = [System.Environment]::GetEnvironmentVariable($variableToUpdate, [System.EnvironmentVariableTarget]::Machine)
     if ($remove -eq 1) {
         $pathArray = $currentPath -split ";"
         if ($isVarName -eq 1) {
@@ -223,7 +223,12 @@ function Update-Path-Env-Variable {
             $currentPath += ";$variableName"
         }
     }
-    [System.Environment]::SetEnvironmentVariable("PATH", $currentPath, [System.EnvironmentVariableTarget]::Machine)
+    [System.Environment]::SetEnvironmentVariable($variableToUpdate, $currentPath, [System.EnvironmentVariableTarget]::Machine)
+}
+
+function Update-Path-Env-Variable {
+    param( [string]$variableName, [boolean]$isVarName = 1, [boolean]$remove = 0 )
+    Update-Env-Variable -variableName $variableName -variableToUpdate "PATH" -isVarName $isVarName -remove $remove
 }
 
 function What-ToDo-Next {
