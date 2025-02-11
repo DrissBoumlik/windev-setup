@@ -89,7 +89,7 @@ if ($StepsQuestions["CMDER"].Answer -eq "yes") {
     Make-Directory "$downloadPath\env\tools"
     Make-Directory "$downloadPath\env\tools\scripts"
     Copy-Item -Path "$PWD\tools\scripts\set-env.ps1" -Destination "$downloadPath\env\tools\scripts\set-env.ps1"
-    Add-Alias-To-Cmder -alias "setvar=powershell -ExecutionPolicy Bypass -File ""$downloadPath\env\tools\scripts\set-env.ps1"" -variableName ""`$1"" -variableValue ""``%`$2``%"" && RefreshEnv.cmd $*"
+    Add-Alias-To-Cmder -downloadPath $downloadPath -alias "setvar=powershell -ExecutionPolicy Bypass -File ""$downloadPath\env\tools\scripts\set-env.ps1"" -variableName ""`$1"" -variableValue ""``%`$2``%"" && RefreshEnv.cmd $*"
 
     $WhatWasDoneMessages = Set-Success-Message -message "ConEmu.xml & user_aliases.cmd were added to Cmder successfully" -WhatWasDoneMessages $WhatWasDoneMessages
 }
@@ -102,8 +102,7 @@ if ($StepsQuestions["COMPOSER"].Answer -eq "yes") {
     Copy-Item -Path "$PWD\tools\composer-v1" -Destination "C:\composer\v1" -Recurse
     Update-Path-Env-Variable -variableName "C:\composer\v1" -isVarName 0
     
-    $msg = "'composer1'"
-    $WhatWasDoneMessages = Set-Success-Message -message "$msg variables were successfully added to the PATH" -WhatWasDoneMessages $WhatWasDoneMessages
+    $WhatWasDoneMessages = Set-Success-Message -message "composer1 was successfully added to the PATH" -WhatWasDoneMessages $WhatWasDoneMessages
 }
 #endregion
 

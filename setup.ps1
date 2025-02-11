@@ -3,8 +3,6 @@
 
 $ProgressPreference = 'SilentlyContinue'
 
-$Global:ENV_FILE = "$PSScriptRoot\.env"      
-$Global:USER_ENV = Get-Env
 
 Write-Host "`nThis will setup your env with (Git, Composer, NVM, Chocolatey, Some terminal utilities, Cmder)`n"
 
