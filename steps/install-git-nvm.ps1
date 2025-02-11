@@ -1,3 +1,6 @@
+
+$ProgressPreference = 'SilentlyContinue'
+
 if (($StepsQuestions["GIT"].Answer -eq "yes") -or ($StepsQuestions["REDIS"].Answer -eq "yes") -or ($StepsQuestions["NVM"].Answer -eq "yes")) {
     
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString("https://chocolatey.org/install.ps1"))

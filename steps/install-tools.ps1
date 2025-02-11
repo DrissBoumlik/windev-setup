@@ -39,7 +39,7 @@ if ($StepsQuestions["TOOLS"].Answer -eq "yes") {
         #endregion
 
         $tools = $tools -join ";"
-        Add-Env-Variable -newVariableName "tools" -newVariableValue $tools -updatePath 1 -overrideExistingEnvVars $overrideExistingEnvVars
+        Update-Env-Variable -variableName $tools -variableToUpdate "tools" -isVarName 0
 
         $WhatWasDoneMessages = Set-Success-Message -message "Tools (eza, delta, bat, fzf, zoxide, tldr) downloaded/installed & configured successfully" -WhatWasDoneMessages $WhatWasDoneMessages
     }
