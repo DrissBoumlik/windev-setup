@@ -3,6 +3,8 @@
 
 $ProgressPreference = 'SilentlyContinue'
 
+$Global:ENV_FILE = "$PWD\.env"
+$Global:USER_ENV = Get-Env
 
 Write-Host "`nThis will setup your env with (Git, Composer, NVM, Chocolatey, Some terminal utilities, Cmder)`n"
 
@@ -28,8 +30,16 @@ $WhatWasDoneMessages = @()
 $WhatToDoNext = @()
 
 #region SETUP THE CONTAINER DIRECTORY
-$downloadPath = Setup-Container-Directory
-Write-Host "`n- Your working directory is $downloadPath :) " -BackgroundColor Green -ForegroundColor Black
+$downloadPath = $USER_ENV["USER_ENV_PATH"]
+$newDownloadPath = Read-Host "`n- Your working directory is $downloadPath, type the new destination if you would like to change it"
+
+if ($newDownloadPath) {
+    Set-Env -key "USER_ENV_PATH" -value $newDownloadPath
+    $downloadPath = $newDownloadPath
+}
+
+Make-Directory -path $downloadPath
+
 $WhatToDoNext = Set-Todo-Message -message "Your container path is '$downloadPath'" -WhatToDoNext $WhatToDoNext
 
 $overrideExistingEnvVars = Prompt-YesOrNoWithDefault -message "`nWould you like to override the existing environment variables"

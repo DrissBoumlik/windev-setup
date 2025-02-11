@@ -101,31 +101,6 @@ function Add-Alias-To-Cmder {
     Add-Content $alias -Path $aliasFilePath
 }
 
-function Setup-Container-Directory {
-    $partitions = Get-Partition | Where-Object { $_.DriveLetter -match "[A-Za-z]" } | Select-Object -ExpandProperty DriveLetter
-    $partitionsLetters = "C"
-    if (-not ($null -eq $partitions)) {
-        $partitionsLetters = $partitions -join ""
-    }
-    do {
-        $downloadPath = Prompt-Quesiton -message "`nIndicate the target directory (ex: C:\Container)"
-        if (-not ($downloadPath -match "^[$partitionsLetters]:\\.{3,20}$")) {
-            Write-Host "`n- Not a valid directory or partition :( " -BackgroundColor Yellow -ForegroundColor Black
-        }
-    } while (-not ($downloadPath -match "^[$partitionsLetters]:\\.{3,20}$"))
-    
-    if (Test-Path -Path "$downloadPath" -PathType Container) {
-        Write-Host "`nThe container directory $downloadPath already exists !!" -BackgroundColor Yellow -ForegroundColor Black
-        $response = Prompt-YesOrNoWithDefault -message "`nWould you like to proceed ?" -defaultOption "yes"
-        if ($response -eq "yes" -or $response -eq "y") {
-            return $downloadPath
-        }
-        return Setup-Container-Directory
-    }
-    Make-Directory -path $downloadPath
-
-    return $downloadPath
-}
 function Download-File {
     param ( [string]$url, [string]$output )
     Invoke-WebRequest -Uri $url -OutFile $output
@@ -261,4 +236,19 @@ function Get-Env {
         $envData[$key.Trim()] = $value.Trim()                                                     
     }                                                                                             
     return $envData                                                                               
-}                                                                                                 
+}
+
+function Set-Env {
+    param ($key, $value)
+    # Read the file into an array of lines
+    $envLines = Get-Content $ENV_FILE
+
+    # Modify the line with the key
+    $envLines = $envLines | ForEach-Object {
+        if ($_ -match "^$key=") { "$key=$value" }
+        else { $_ }
+    }
+
+    # Write the modified lines back to the .env file
+    $envLines | Set-Content $ENV_FILE
+}

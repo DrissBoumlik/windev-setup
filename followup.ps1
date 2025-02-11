@@ -3,6 +3,9 @@
 
 $ProgressPreference = 'SilentlyContinue'
 
+$Global:ENV_FILE = "$PWD\.env"
+$Global:USER_ENV = Get-Env
+
 #region ANSWER QUESTIONS FOR WHICH STEPS TO EXECUTE
 $StepsQuestions = [ordered]@{
     GIT = [PSCustomObject]@{ Question = "- Did you already install git ? "; Answer = "no" }
@@ -16,8 +19,7 @@ foreach ($key in $StepsQuestions.Keys) {
 }
 #endregion
 
-$downloadPath = Setup-Container-Directory
-
+$downloadPath = $USER_ENV["USER_ENV_PATH"]
 
 $WhatWasDoneMessages = @()
 #region ADD DELTA TO GIT CONFIG
