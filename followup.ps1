@@ -92,37 +92,6 @@ if ($StepsQuestions["CMDER"].Answer -eq "yes") {
     Add-Alias-To-Cmder -alias "setvar=powershell -ExecutionPolicy Bypass -File ""$downloadPath\env\tools\scripts\set-env.ps1"" -variableName ""`$1"" -variableValue ""``%`$2``%"" && RefreshEnv.cmd $*"
 
     $WhatWasDoneMessages = Set-Success-Message -message "ConEmu.xml & user_aliases.cmd were added to Cmder successfully" -WhatWasDoneMessages $WhatWasDoneMessages
-    
-    Add-Alias-To-Cmder -alias "tools=cd ""$downloadPath\env\tools"" $*" -downloadPath $downloadPath
-    Add-Alias-To-Cmder -alias "phpdir=cd ""$downloadPath\env\php_stuff\php"" $*" -downloadPath $downloadPath
-    Add-Alias-To-Cmder -alias "envdir=cd ""$downloadPath\env"" $*" -downloadPath $downloadPath
-    $WhatWasDoneMessages = Set-Success-Message -message "PHP & ENV paths aliases were added successfully" -WhatWasDoneMessages $WhatWasDoneMessages
-    
-    $phpPaths = Get-ChildItem -Path "$downloadPath\env\php_stuff\php" -Directory | Select-Object -ExpandProperty Name
-    if ($phpPaths.Count -gt 0) {
-        foreach ($phpPath in $phpPaths) {
-            if ($phpPath -match "php-(\d+)\.(\d+)\.") {
-                $majorVersion = $matches[1]
-                $minorVersion = $matches[2]
-                if ($minorVersion -eq '0') {
-                    $phpVersion = $majorVersion
-                } else {
-                    $phpVersion = "$majorVersion$minorVersion"
-                }
-                Add-Alias-To-Cmder -alias "php$phpVersion=""$downloadPath\env\php_stuff\php\$phpPath\php.exe"" $*" -downloadPath $downloadPath
-            }
-        }
-        $WhatWasDoneMessages = Set-Success-Message -message "PHP versions aliases were added successfully" -WhatWasDoneMessages $WhatWasDoneMessages
-    }
-    
-    $phpToolsPaths = Get-ChildItem -Path "$downloadPath\env\php_stuff\tools" -File -Filter "*.phar"
-    if ($phpToolsPaths.Count -gt 0) {
-        foreach ($phpToolPath in $phpToolsPaths) {
-            $fileName = $phpToolPath.BaseName
-            Add-Alias-To-Cmder -alias "$fileName=php ""$downloadPath\env\php_stuff\tools\$fileName.phar"" $*" -downloadPath $downloadPath
-        }
-        $WhatWasDoneMessages = Set-Success-Message -message "PHP TOOLS aliases were added successfully" -WhatWasDoneMessages $WhatWasDoneMessages
-    }
 }
 #endregion
 
