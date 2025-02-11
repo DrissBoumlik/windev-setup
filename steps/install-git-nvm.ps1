@@ -55,7 +55,7 @@ if ($StepsQuestions["PVM"].Answer -eq "yes") {
         Extract-Zip -zipPath "$downloadPath\pvm.zip" -extractPath "$downloadPath\env\tools\pvm"
         Remove-Item "$downloadPath\pvm.zip"
         
-        Update-Env-Variable -variableName "$downloadPath\env\tools\pvm\pvm-master" -variableToUpdate "tools" -isVarName 0
+        Update-Path-Env-Variable -variableName "$downloadPath\env\tools\pvm\pvm-master" -isVarName 0
         
         $WhatWasDoneMessages = Set-Success-Message -message "PVM was installed successfully" -WhatWasDoneMessages $WhatWasDoneMessages
     }
