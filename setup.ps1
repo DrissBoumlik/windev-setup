@@ -31,12 +31,6 @@ $WhatToDoNext = @()
 
 #region SETUP THE CONTAINER DIRECTORY
 $downloadPath = $USER_ENV["USER_ENV_PATH"]
-$newDownloadPath = Read-Host "`n- Your working directory is $downloadPath, type the new destination if you would like to change it"
-
-if ($newDownloadPath) {
-    Set-Env -key "USER_ENV_PATH" -value $newDownloadPath
-    $downloadPath = $newDownloadPath
-}
 
 Make-Directory -path $downloadPath
 
