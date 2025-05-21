@@ -34,16 +34,16 @@ $downloadPath = $USER_ENV["USER_ENV_PATH"]
 
 Make-Directory -path $downloadPath
 
-$WhatToDoNext = Set-Todo-Message -message "Your container path is '$downloadPath'" -WhatToDoNext $WhatToDoNext
+$WhatToDoNext = Set-Todo-Message -message "Your dev path is '$downloadPath'" -WhatToDoNext $WhatToDoNext
 
 $overrideExistingEnvVars = Prompt-YesOrNoWithDefault -message "`nWould you like to override the existing environment variables"
 
 
 . $PWD\steps\install-composer.ps1
 
-. $PWD\steps\install-git-nvm.ps1
+. $PWD\steps\install-devtools.ps1
 
-. $PWD\steps\install-tools.ps1
+. $PWD\steps\install-utils.ps1
 
 . $PWD\steps\install-cmder.ps1
 
