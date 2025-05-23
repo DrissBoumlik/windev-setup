@@ -10,10 +10,10 @@ Write-Host "`nThis will setup your env with (Git, Composer, NVM, Chocolatey, Som
 
 #region ANSWER QUESTIONS FOR WHICH STEPS TO EXECUTE
 $StepsQuestions = [ordered]@{
-   COMPOSER = [PSCustomObject]@{ Question = "- Download Composer ?"; Answer = "no" }
    GIT = [PSCustomObject]@{ Question = "- Download Git ?"; Answer = "no" }
    NVM = [PSCustomObject]@{ Question = "- Download NVM (Node Version Manager) ?"; Answer = "no" }
    PVM = [PSCustomObject]@{ Question = "- Download PVM (PHP Version Manager) ?"; Answer = "no" }
+   COMPOSER = [PSCustomObject]@{ Question = "- Download Composer ?"; Answer = "no" }
    REDIS = [PSCustomObject]@{ Question = "- Download Redis ?"; Answer = "no" }
    TOOLS = [PSCustomObject]@{ Question = "- Download TOOLS (eza, delta, bat, fzf, zoxide, tldr) ?"; Answer = "no" }
    CMDER = [PSCustomObject]@{ Question = "- Download & Configure Cmder ?"; Answer = "no" }
@@ -39,9 +39,11 @@ $WhatToDoNext = Set-Todo-Message -message "Your dev path is '$downloadPath'" -Wh
 $overrideExistingEnvVars = Prompt-YesOrNoWithDefault -message "`nWould you like to override the existing environment variables"
 
 
-. $PWD\steps\install-composer.ps1
+Invoke-Expression ((New-Object System.Net.WebClient).DownloadString("https://chocolatey.org/install.ps1"))
 
 . $PWD\steps\install-devtools.ps1
+
+. $PWD\steps\install-composer.ps1
 
 . $PWD\steps\install-utils.ps1
 
@@ -57,3 +59,6 @@ $WhatToDoNext = Set-Todo-Message -message "Run ./followup.ps1 when you're done f
 #region WHAT TO DO NEXT
 What-ToDo-Next -WhatWasDoneMessages $WhatWasDoneMessages -WhatToDoNext $WhatToDoNext
 #endregion
+
+Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 -Global
+Update-SessionEnvironment
